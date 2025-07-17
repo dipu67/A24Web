@@ -2,6 +2,7 @@ import React from 'react'
 import Tryping  from '@/components/typing'
 import bot from '@/lib/tgbot/bot'
 import { aiClient } from '@/lib/gemini/ai'
+import {marked} from 'marked'
 
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id
@@ -15,7 +16,7 @@ const mg= await bot.sendMessage(chatId, 'Writing...')
  if(msg.text){
    if (res) {
     bot.deleteMessage(chatId, mg.message_id)
-    bot.sendMessage(chatId, res.text || 'No response from AI.')
+    bot.sendMessage(chatId, await marked.parse(`${res.text}`) ,{ parse_mode: 'HTML' })
   }
   
  }
