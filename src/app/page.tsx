@@ -6,7 +6,6 @@ import { aiClient } from '@/lib/gemini/ai'
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id
 const mg= await bot.sendMessage(chatId, 'Writing...')
-console.log(msg.text);
 
   const res = await resAi(msg.text)
   if (!res) {
