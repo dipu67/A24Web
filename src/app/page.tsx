@@ -4,36 +4,7 @@ import bot from '@/lib/tgbot/bot'
 import { aiClient } from '@/lib/gemini/ai'
 import {marked} from 'marked'
 
-bot.on('message', async (msg) => {
-  const chatId = msg.chat.id
-const mg= await bot.sendMessage(chatId, 'Writing...')
 
-  const res = await resAi(msg.text)
-  if (!res) {
-    bot.sendMessage(chatId, 'Sorry, I could not process your request.')
-    return
-  }
- if(msg.text){
-   if (res) {
-    bot.deleteMessage(chatId, mg.message_id)
-    bot.sendMessage(chatId, await marked.parse(`${res.text}`) ,{ parse_mode: 'HTML' })
-  }
-  
- }
-})
-async function resAi(data: any) {
-  try {
-    const response = await aiClient.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: data,
-      
-    })
-    return response
-    
-  } catch (error) {
-    console.error('Error fetching AI response:', error)
-  }
-}
 
 console.log("Telegram bot is running...");
 
